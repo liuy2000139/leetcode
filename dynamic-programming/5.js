@@ -2,28 +2,32 @@
  * @param {string} s
  * @return {string}
  */
-const fn = (s) => {
-  let len = s.length
-  let i = Math.floor(len / 2)
-  let j = i
-  if (len % 2 === 0) {
-    i = len / 2 - 1
-    j = i + 1
-  }
-  while (i >= 0 && j < len && s[i] === s[j]) {
-    i--
-    j++
-  }
-  return i === -1 && j === len
-}
-var longestPalindrome = function (s) {
-  let res = ''
-  while (!res) {
-    if (fn(s)) {
-      res = s
-    } else {
-      s = s.slice(0, s.length - 1)
-    }
-  }
-  for (let i = 0; i < s.length; i++) {}
+var longestPalindrome = (s) => {
+	const dp = []
+	let m = s.length
+	let l = 0, r = 0
+
+	for (let i = m - 1; i >= 0; i--) {
+		dp[i] = []
+		for (let j = i; j < m; j++) {
+			let current = false
+			if (i === j) {
+				current = true
+			} else {
+				if (j - i === 1) {
+					current = s[i] === s[j]
+				} else {
+					current = s[i] === s[j] && dp[i + 1][j - 1]
+				}
+			}
+			dp[i][j] = current
+			if (current) {
+				if (j - i > r - l) {
+					l = i
+					r = j
+				}
+			}
+		}
+	}
+	return s.slice(l, r + 1)
 }
