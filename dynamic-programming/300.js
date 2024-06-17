@@ -3,37 +3,22 @@
  * @return {number}
  */
 var lengthOfLIS = function (nums) {
-  let m = nums.length
-  let dp = []
-  let res = 0
-  for (let i = m - 1; i >= 0; i--) {
-    dp[i] = []
-    for (let j = i; j < m; j++) {
-      if (i === j) {
-        dp[i][j] = 1
-      } else if (j - i === 1) {
-        dp[i][j] = nums[i] < nums[j] ? 2 : 1
-      } else {
-        if (nums[j] > nums[i]) {
-          if (dp[i][j - 1] === dp[i + 1][j]) {
-            if (Math.min(...nums.slice(i + 1, j + 1)) >= nums[i]) {
-              dp[i][j] = dp[i + 1][j] + 1
-            } else {
-              dp[i][j] = dp[i][j - 1]
-            }
-          } else if (dp[i][j - 1] > dp[i + 1][j]) {
-            dp[i][j] = dp[i][j - 1]
-          } else {
-            dp[i][j] = dp[i + 1][j]
-          }
-        } else {
-          dp[i][j] = Math.max(dp[i][j - 1], dp[i + 1][j])
-        }
-      }
-      res = Math.max(res, dp[i][j])
-    }
+  if (nums.length == 0) {
+    return 0
   }
-  return res
+  let dp = []
+  dp[0] = 1
+  let maxans = 1
+  for (let i = 1; i < nums.length; i++) {
+    dp[i] = 1
+    for (let j = 0; j < i; j++) {
+      if (nums[i] > nums[j]) {
+        dp[i] = Math.max(dp[i], dp[j] + 1)
+      }
+    }
+    maxans = Math.max(maxans, dp[i])
+  }
+  return maxans
 }
 
 console.log(lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18])) // 4/
