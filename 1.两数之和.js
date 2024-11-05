@@ -1,7 +1,7 @@
 /*
  * @lc app=leetcode.cn id=1 lang=javascript
  *
- * [1] 两数之和
+ * [1] 两数之和55
  *
  * https://leetcode-cn.com/problems/two-sum/description/
  *
